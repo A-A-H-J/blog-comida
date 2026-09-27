@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog de Comida - SaborGourmet</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Swiper.js CSS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        /* Controles de Swiper personalizados en tono azul elegante */
+        .swiper-button-next, .swiper-button-prev {
+            color: #1d4ed8 !important; /* blue-700 */
+            background-color: rgba(255, 255, 255, 0.95);
+            width: 46px !important;
+            height: 46px !important;
+            border-radius: 50%;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(219, 234, 254, 0.8);
+        }
+        
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background-color: #ffffff;
+            transform: scale(1.1);
+            color: #1e40af !important; /* blue-800 */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+        }
+        
+        .swiper-button-next:after, .swiper-button-prev:after {
+            font-size: 1.25rem !important;
+            font-weight: 800;
+        }
+
+        .swiper-pagination-bullet {
+            background-color: #93c5fd !important;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .swiper-pagination-bullet-active {
+            background-color: #2563eb !important; /* blue-600 */
+            width: 28px !important;
+            border-radius: 6px !important;
+            opacity: 1;
+        }
+
+        /* Animación suave para cambio de pestañas */
+        .tab-content {
+            transition: opacity 0.35s ease-in-out, transform 0.35s ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col bg-slate-50">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-blue-100 shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer group" onclick="switchTab('comida')">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-xl shadow-md shadow-blue-500/20 group-hover:bg-blue-700 transition">
+                        S
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black text-blue-900 tracking-tight">Sabor</span><span class="text-2xl font-black text-blue-600 tracking-tight">Gourmet</span>
+                        <span class="block text-[10px] font-bold text-blue-400 uppercase tracking-widest -mt-1">Blog Gastronómico</span>
+                    </div>
+                </div>
+                
+                <!-- Navegación por pestañas -->
+                <nav class="flex space-x-2 sm:space-x-4 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60">
+                    <button onclick="switchTab('comida')" id="nav-comida" class="flex items-center space-x-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 bg-blue-600 text-white shadow-sm shadow-blue-500/30">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        <span>Comida</span>
+                    </button>
+                    <button onclick="switchTab('equipo')" id="nav-equipo" class="flex items-center space-x-2 px-5 py-2.5 rounded-xl font-bold text-sm text-slate-600 hover:text-blue-700 hover:bg-white/60 transition-all duration-200">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5-3.512M9 20H4v-2a3 3 0 015-3.512M12 11a4 4 0 100-8 4 4 0 000 8zm6 8a3 3 0 00-3-3H9a3 3 0 00-3 3"></path></svg>
+                        <span>Sobre Nosotros</span>
+                    </button>
+                </nav>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        
+        <!-- PESTAÑA 1: SECCIÓN COMIDA -->
+        <section id="sec-comida" class="tab-content block opacity-100 transform translate-y-0">
+            
+            <div class="text-center mb-8">
+                <span class="inline-flex items-center gap-1.5 text-xs font-extrabold tracking-wider text-blue-700 uppercase bg-blue-100/70 px-3.5 py-1.5 rounded-full border border-blue-200">
+                    <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+                    Galería Especializada
+                </span>
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-2 tracking-tight">Especialidades de la Casa</h1>
+                <p class="text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
+                    Navega a través de nuestras creaciones culinarias. Cada fotografía refleja la frescura, sabor e historia detrás de nuestros platillos.
+                </p>
+            </div>
+
+            <!-- Carrusel Swiper -->
+            <div class="swiper mySwiper rounded-3xl shadow-2xl overflow-hidden bg-white border border-blue-100">
+                <div class="swiper-wrapper">
+                    
+                    <!-- SLIDE 1 -->
+                    <div class="swiper-slide bg-white flex flex-col">
+                        <div class="relative h-[420px] sm:h-[480px] w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img src="imagenes/brisa_tropical.jpeg" alt="" class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none select-none">
+                            <img src="imagenes/brisa_tropical.jpeg" alt="Brisa Tropical" class="relative z-10 max-h-full max-w-full object-contain p-3 drop-shadow-2xl">
+                        </div>
+                        <div class="p-6 sm:p-8 text-center bg-gradient-to-b from-white to-blue-50/40">
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Bebidas</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Brisa Tropical</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                                Refrescante bebida de frutos rojos con hielo, cítricos y un toque tropical.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2 -->
+                    <div class="swiper-slide bg-white flex flex-col">
+                        <div class="relative h-[420px] sm:h-[480px] w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img src="imagenes/Burger & Wedges.jpeg" alt="" class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none select-none">
+                            <img src="imagenes/Burger & Wedges.jpeg" alt="Burger & Wedges" class="relative z-10 max-h-full max-w-full object-contain p-3 drop-shadow-2xl">
+                        </div>
+                        <div class="p-6 sm:p-8 text-center bg-gradient-to-b from-white to-blue-50/40">
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Especialidades</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Burger & Wedges</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                                Jugosa hamburguesa con queso, tocino y vegetales, acompañada de gajos de papa sazonados.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3 -->
+                    <div class="swiper-slide bg-white flex flex-col">
+                        <div class="relative h-[420px] sm:h-[480px] w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img src="imagenes/Burger Gourmet.jpeg" alt="" class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none select-none">
+                            <img src="imagenes/Burger Gourmet.jpeg" alt="Burger Gourmet" class="relative z-10 max-h-full max-w-full object-contain p-3 drop-shadow-2xl">
+                        </div>
+                        <div class="p-6 sm:p-8 text-center bg-gradient-to-b from-white to-blue-50/40">
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Gourmet</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Burger Gourmet</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                                Hamburguesa artesanal con carne, vegetales frescos, queso y papas crujientes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 4 -->
+                    <div class="swiper-slide bg-white flex flex-col">
+                        <div class="relative h-[420px] sm:h-[480px] w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img src="imagenes/Crocante de Pollo.jpeg" alt="" class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none select-none">
+                            <img src="imagenes/Crocante de Pollo.jpeg" alt="Crocante de Pollo" class="relative z-10 max-h-full max-w-full object-contain p-3 drop-shadow-2xl">
+                        </div>
+                        <div class="p-6 sm:p-8 text-center bg-gradient-to-b from-white to-blue-50/40">
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Entradas</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Crocante de Pollo</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                                Filete de pollo empanizado y crujiente, acompañado de papas sazonadas y ensalada fresca.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 5 -->
+                    <div class="swiper-slide bg-white flex flex-col">
+                        <div class="relative h-[420px] sm:h-[480px] w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img src="imagenes/Luz de Lima.jpeg" alt="" class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none select-none">
+                            <img src="imagenes/Luz de Lima.jpeg" alt="Luz de Lima" class="relative z-10 max-h-full max-w-full object-contain p-3 drop-shadow-2xl">
+                        </div>
+                        <div class="p-6 sm:p-8 text-center bg-gradient-to-b from-white to-blue-50/40">
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Bebidas</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Luz de Lima</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                                Refresco cítrico artesanal preparado con limas frescas y toque helado.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 6 -->
+                    <div class="swiper-slide bg-white flex flex-col">
+                        <div class="relative h-[420px] sm:h-[480px] w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img src="imagenes/Pavo de Virginia.jpeg" alt="" class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none select-none">
+                            <img src="imagenes/Pavo de Virginia.jpeg" alt="Pavo de Virginia" class="relative z-10 max-h-full max-w-full object-contain p-3 drop-shadow-2xl">
+                        </div>
+                        <div class="p-6 sm:p-8 text-center bg-gradient-to-b from-white to-blue-50/40">
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Sandwiches</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Pavo de Virginia</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                                Torta llena de pavo, lechuga, tomate, pepino y aderezos como mostaza y mayonesa al gusto.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 7 -->
+                    <div class="swiper-slide bg-white flex flex-col">
+                        <div class="relative h-[420px] sm:h-[480px] w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img src="imagenes/Pizza de peperroni.jpeg" alt="" class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none select-none">
+                            <img src="imagenes/Pizza de peperroni.jpeg" alt="Pizza de Peperroni" class="relative z-10 max-h-full max-w-full object-contain p-3 drop-shadow-2xl">
+                        </div>
+                        <div class="p-6 sm:p-8 text-center bg-gradient-to-b from-white to-blue-50/40">
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Pizzas</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Pizza de Peperroni</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                                Crocante y caliente pizza, con mucho queso, mucha salsa y peperroni.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 8 -->
+                    <div class="swiper-slide bg-white flex flex-col">
+                        <div class="relative h-[420px] sm:h-[480px] w-full overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img src="imagenes/Especial Bell.jpeg" alt="" class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none select-none">
+                            <img src="imagenes/Especial Bell.jpeg" alt="Especial Bell" class="relative z-10 max-h-full max-w-full object-contain p-3 drop-shadow-2xl">
+                        </div>
+                        <div class="p-6 sm:p-8 text-center bg-gradient-to-b from-white to-blue-50/40">
+                            <span class="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1 block">Combos</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">Especial Bell</h2>
+                            <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                                Orden de papas, con un burrito de la especialidad carne picante, y un taco liviano de frijoles, aguacate y tomate.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <!-- Navegación y Paginación Swiper -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination !bottom-3"></div>
+            </div>
+
+            <!-- Indicador visual -->
+            <p class="text-center text-xs text-slate-400 mt-4 flex items-center justify-center gap-1">
+                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Usa las flechas o desliza la pantalla para explorar todas las fotos del carrusel.
+            </p>
+        </section>
+
+        <!-- PESTAÑA 2: SECCIÓN SOBRE NOSOTROS / EQUIPO -->
+        <section id="sec-equipo" class="tab-content hidden opacity-0 transform translate-y-2">
+            
+            <div class="text-center mb-12">
+                <span class="inline-flex items-center gap-1.5 text-xs font-extrabold tracking-wider text-blue-700 uppercase bg-blue-100/70 px-3.5 py-1.5 rounded-full border border-blue-200">
+                    Equipo de Trabajo
+                </span>
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-3 mb-2 tracking-tight">Integrantes del Equipo</h1>
+                <p class="text-slate-500 max-w-xl mx-auto text-sm sm:text-base">
+                    Estudiantes encargados del desarrollo, fotografía y elaboración de este blog gastronómico.
+                </p>
+            </div>
+
+            <!-- Grid de 3 Integrantes -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Integrante 1: Adriano Emmanuel Salazar Mejía -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl shadow-blue-900/5 border border-blue-100 text-center flex flex-col items-center transform transition duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-blue-300 group">
+                    <div class="w-36 h-36 rounded-full overflow-hidden border-4 border-blue-500 p-1 shadow-lg shadow-blue-500/20 group-hover:border-blue-600 transition mb-6">
+                        <img src="imagenes/adriano.jpeg" alt="Adriano Emmanuel Salazar Mejía" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:text-blue-600 transition leading-snug">
+                        Adriano Emmanuel Salazar Mejía
+                    </h3>
+                    <div class="mt-auto pt-4 w-full border-t border-slate-100">
+                        <span class="inline-block bg-blue-50 text-blue-700 text-xs font-mono font-bold px-3.5 py-1.5 rounded-xl border border-blue-200/60 shadow-sm">
+                            Carné: SM262242
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Integrante 2: Adrián Alejandro Cortez Serrano -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl shadow-blue-900/5 border border-blue-100 text-center flex flex-col items-center transform transition duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-blue-300 group">
+                    <div class="w-36 h-36 rounded-full overflow-hidden border-4 border-blue-500 p-1 shadow-lg shadow-blue-500/20 group-hover:border-blue-600 transition mb-6">
+                        <img src="imagenes/Adrian.jpeg" alt="Adrián Alejandro Cortez Serrano" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:text-blue-600 transition leading-snug">
+                        Adrián Alejandro Cortez Serrano
+                    </h3>
+                    <div class="mt-auto pt-4 w-full border-t border-slate-100">
+                        <span class="inline-block bg-blue-50 text-blue-700 text-xs font-mono font-bold px-3.5 py-1.5 rounded-xl border border-blue-200/60 shadow-sm">
+                            Carné: CS260863
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Integrante 3: Natalia Sofía Rosales Flores -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl shadow-blue-900/5 border border-blue-100 text-center flex flex-col items-center transform transition duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-blue-300 group">
+                    <div class="w-36 h-36 rounded-full overflow-hidden border-4 border-blue-500 p-1 shadow-lg shadow-blue-500/20 group-hover:border-blue-600 transition mb-6">
+                        <img src="imagenes/Natalia.jpeg" alt="Natalia Sofía Rosales Flores" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:text-blue-600 transition leading-snug">
+                        Natalia Sofía Rosales Flores
+                    </h3>
+                    <div class="mt-auto pt-4 w-full border-t border-slate-100">
+                        <span class="inline-block bg-blue-50 text-blue-700 text-xs font-mono font-bold px-3.5 py-1.5 rounded-xl border border-blue-200/60 shadow-sm">
+                            Carné: RF260899
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto">
+        <div class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-blue-900">SaborGourmet</span>
+                <span>&bull; Blog de Comida Interactivo</span>
+            </div>
+            <div>
+                &copy; 2026 Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- CDN JavaScript de Swiper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <!-- Script de Configuración e Interacción -->
+    <script>
+        // Inicialización de Swiper.js
+        const swiper = new Swiper('.mySwiper', {
+            loop: true,
+            speed: 700,
+            spaceBetween: 0,
+            grabCursor: true,
+            autoplay: {
+                delay: 4500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            keyboard: {
+                enabled: true,
+            }
+        });
+
+        // Lógica para alternar pestañas ("Comida" y "Sobre Nosotros")
+        function switchTab(tabName) {
+            const secComida = document.getElementById('sec-comida');
+            const secEquipo = document.getElementById('sec-equipo');
+            const navComida = document.getElementById('nav-comida');
+            const navEquipo = document.getElementById('nav-equipo');
+
+            const activeNavClasses = ['bg-blue-600', 'text-white', 'shadow-sm', 'shadow-blue-500/30'];
+            const inactiveNavClasses = ['text-slate-600', 'hover:text-blue-700', 'hover:bg-white/60'];
+
+            if (tabName === 'comida') {
+                secEquipo.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => {
+                    secEquipo.classList.add('hidden');
+                    
+                    secComida.classList.remove('hidden');
+                    setTimeout(() => {
+                        secComida.classList.remove('opacity-0', '-translate-y-2');
+                        secComida.classList.add('opacity-100', 'translate-y-0');
+                        swiper.update();
+                    }, 20);
+                }, 200);
+
+                navComida.classList.add(...activeNavClasses);
+                navComida.classList.remove(...inactiveNavClasses);
+                
+                navEquipo.classList.remove(...activeNavClasses);
+                navEquipo.classList.add(...inactiveNavClasses);
+
+            } else if (tabName === 'equipo') {
+                secComida.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => {
+                    secComida.classList.add('hidden');
+                    
+                    secEquipo.classList.remove('hidden');
+                    setTimeout(() => {
+                        secEquipo.classList.remove('opacity-0', 'translate-y-2');
+                        secEquipo.classList.add('opacity-100', 'translate-y-0');
+                    }, 20);
+                }, 200);
+
+                navEquipo.classList.add(...activeNavClasses);
+                navEquipo.classList.remove(...inactiveNavClasses);
+                
+                navComida.classList.remove(...activeNavClasses);
+                navComida.classList.add(...inactiveNavClasses);
+            }
+        }
+    </script>
+</body>
+</html>
